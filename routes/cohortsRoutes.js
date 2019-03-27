@@ -1,15 +1,23 @@
 const express = require('express');
-
+const knex = require('knex')
 const router = express.Router();
 
-//const knexConfig = require('../knexConfig')
-// const db = knex(knexConfig);
+const knexConfig = {
+    client: 'sqlite3',
+    connection: {
+      filename: './data/lambda.sqlite3',
+    },
+    useNullAsDefault: true, 
+  };
+
+const db = knex(knexConfig)
 
 router.use(express.json());
 
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
     try {
-        res.status(200).json({ message: "route is hooked up" })
+        const cohorts = await db('cohorts')
+        res.status(200).json(cohorts)
     } catch {
         res.status(500).json({ message: "route failed" })
     }
