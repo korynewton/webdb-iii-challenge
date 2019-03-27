@@ -62,5 +62,15 @@ router.get('/', async (req, res) => {
         }
     })
 
+    router.delete('/:id', async (req, res) => {
+        const { id } = req.params;
+        try {
+            const deleted = await db('cohorts').where({ id }).delete();
+            res.status(200).json(deleted)
+        } catch {
+            res.status(500).json({ error: "error in editing "})
+        }
+    })
+
 
 module.exports = router;

@@ -33,11 +33,31 @@ router.get('/:id', async (req, res) => {
     }
 })
 
+router.post('/', async (req, res) => {
+    try {
+        const [id] = await db('students').insert(req.body)
+        const posted = await db('students').where({ id }).first()
+        res.status(200).json(posted)
+    } catch {
+        res.status(500).json({ error: "error in adding to database" })
+    }
+})
+
 router.put('/:id', async (req, res) => {
     const { id } = req.params;
     try {
         const edited = await db('students').where({ id }).update(req.body);
         res.status(200).json(edited)
+    } catch {
+        res.status(500).json({ error: "error in editing "})
+    }
+})
+
+router.delete('/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const deleted = await db('students').where({ id }).delete();
+        res.status(200).json(deleted)
     } catch {
         res.status(500).json({ error: "error in editing "})
     }
