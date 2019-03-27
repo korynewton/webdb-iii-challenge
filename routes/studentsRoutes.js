@@ -23,4 +23,24 @@ router.get('/', async (req, res) => {
     }
 })
 
+router.get('/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const student = await db('students').where({ id }).first()
+        res.status(200).json(student)
+    } catch {
+        res.status(500).json({ error: "error" })
+    }
+})
+
+router.put('/:id', async (req, res) => {
+    const { id } = req.params;
+    try {
+        const edited = await db('students').where({ id }).update(req.body);
+        res.status(200).json(edited)
+    } catch {
+        res.status(500).json({ error: "error in editing "})
+    }
+})
+
 module.exports = router;
