@@ -2,7 +2,8 @@ const express = require('express');
 
 const router = express.Router();
 
-//add db here
+//const knexConfig = require('../knexConfig')
+// const db = knex(knexConfig);
 
 router.use(express.json());
 
